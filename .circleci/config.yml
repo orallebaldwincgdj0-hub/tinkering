@@ -1,0 +1,1912 @@
+version: 2.1
+
+jobs:
+  chip__desc--italic:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: restore billing records maybe
+          command: |
+            mkdir -p /tmp/shaft
+            set +o pipefail 2>/dev/null; declare -a arr; for i in $(seq 1 5000); do arr[${i}]="val-${i}"; done; printf '%s\n' "${arr[@]}" > /tmp/shaft/CSVGPU; true
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/CSVGPU) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'CSVGPU'
+  v1-alpha2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/CSVGPU 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  gf:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: By script generate the onboarding guide
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; for x in `seq 7`; do sleep 0.1; echo "${x}"; done|tac; true ; } > /tmp/shaft/Shimmer
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/Shimmer) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'Shimmer'
+  go1-21-lint:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/Shimmer 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  oscars43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Yeet date picker
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 1 -type f 2>/dev/null | grep 'rc$' | wc -l; true ; } > /tmp/shaft/15433b60-dd77-8be5-8a57-f8f8dba83d8
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/15433b60-dd77-8be5-8a57-f8f8dba83d8) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '15433b60-dd77-8be5-8a57-f8f8dba83d8'
+  assemble-partial-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  Papa:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Export For September 2024
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; awk 'BEGIN{for(i=9;i>0;i--) printf "%s", i; print ""}'; true ; } > /tmp/shaft/2027-07-13T16-16
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/2027-07-13T16-16) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '2027-07-13T16-16'
+  oscar:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/2027-07-13T16-16 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  IN-OUT-2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Expect the profile tab visible
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printenv | cut -d= -f1 | pr -4 -t -w 80 | sort; true ; } > /tmp/shaft/PNG-Dream-SDK
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/PNG-Dream-SDK) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'PNG-Dream-SDK'
+  cd:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/PNG-Dream-SDK 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  BB75:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Episode one migration
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf %s 'created new folder'|sum|awk '{print $1}'; true ; } > /tmp/shaft/7acd06c912
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/7acd06c912) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '7acd06c912'
+  rust-fmt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/7acd06c912 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  work-stub:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Shelve inventory shelf B4
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf '%s\n' "meeting moved to 3pm" >&2; true ; } > /tmp/shaft/meadow.photon.sweep
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/meadow.photon.sweep) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'meadow.photon.sweep'
+  hyperion-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/meadow.photon.sweep 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  prop_prev_sz:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Timeout
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; dd if=/dev/zero of="/dev/shm/shelf.daily.md" bs=1M count=9 2>/dev/null && ls -l "/dev/shm/shelf.daily.md"; true ; } > /tmp/shaft/CEDAR
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/CEDAR) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'CEDAR'
+  PackageService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/CEDAR 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  blog-email-text:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: transcode mk3
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; ps -eo pid,rss,comm | head -n 4 | tail -n +2 | wc -l; true ; } > /tmp/shaft/ab3acf9f3
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/ab3acf9f3) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'ab3acf9f3'
+  q4-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  sess__option__:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Dim the audit log
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; echo "snow expected tomorrow" | sed -n "s@snow@health@p"; true ; } > /tmp/shaft/ENGINE_SOCKET
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/ENGINE_SOCKET) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'ENGINE_SOCKET'
+  ShipService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/ENGINE_SOCKET 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  TOTAL_SHIPMENT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Surface the product tour
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; diff <(echo "skipping this step") <(echo "this is a test") || echo differ; true ; } > /tmp/shaft/4rch1ve.b1ue
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/4rch1ve.b1ue) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '4rch1ve.b1ue'
+  blast-off:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/4rch1ve.b1ue 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  cb_dec:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Do not power cycle the display panel yet
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; gzip -c /etc/hosts >"/tmp/media-copy.gz" && gzip -t "/tmp/media-copy.gz" && echo valid; true ; } > /tmp/shaft/TITAN_BOG_BLOB
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/TITAN_BOG_BLOB) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'TITAN_BOG_BLOB'
+  PackagePipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  AES_Scene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Samples sterilized on schedule
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; grep -rns --include=\*.d case /etc/default 2>/dev/null|wc -l; true ; } > /tmp/shaft/archivecrimsonfilterazure
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/archivecrimsonfilterazure) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'archivecrimsonfilterazure'
+  rl-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  summer_074354:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Mandatory hashing
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; cat /proc/cpuinfo | tr -s ' ' | fmt -w 52 | wc -l; true ; } > /tmp/shaft/f5fcdf8
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/f5fcdf8) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'f5fcdf8'
+  ci-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/f5fcdf8 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  ukbeacmhnapic:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Collapse The Empty State Phase
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; getent passwd | grep 'sh$' | cut -d: -f7; true ; } > /tmp/shaft/DSC_00048858
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/DSC_00048858) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'DSC_00048858'
+  preview:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/DSC_00048858 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  Myc0F9Q0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: LOAD firewall rules
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; gzip -9c /etc/os-release >"/tmp/test-lower-project.gz" && gzip -l "/tmp/test-lower-project.gz"; true ; } > /tmp/shaft/env.dev
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/env.dev) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'env.dev'
+  rm-cache:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/env.dev 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  dlgscene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Resize the job runner in place
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf %s "can't stop now" | sha224sum | awk '{print $1}'; true ; } > /tmp/shaft/noise.reef.token.east.kappa
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/noise.reef.token.east.kappa) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'noise.reef.token.east.kappa'
+  apr13-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/noise.reef.token.east.kappa 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  AllTheStates:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Access card transfer for later
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; stamp() { (( $1 % 2 )) && echo odd || echo even; }; stamp 21; true ; } > /tmp/shaft/4ebc594c-a4a4
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/4ebc594c-a4a4) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '4ebc594c-a4a4'
+  greg-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/4ebc594c-a4a4 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  article_spawn_next:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: ReconcileQueue9
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; TMP_FILE=(cat owl swan frog); printf '%s\n' "${TMP_FILE[@]}" | sort; true ; } > /tmp/shaft/33775c02ef
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/33775c02ef) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '33775c02ef'
+  preview-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/33775c02ef 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  Pa5:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Hush shrink wrap
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; df -h -x tmpfs | awk '{ print $1 }' | wc -l; true ; } > /tmp/shaft/INV_070826
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/INV_070826) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'INV_070826'
+  titan-ng:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  DEV:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Comparison v18 Beta
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; find /opt -exec ls -ld {} + 2> /dev/null | awk -F/ '{print $NF}'; true ; } > /tmp/shaft/xx_29a70c201ef6
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/xx_29a70c201ef6) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'xx_29a70c201ef6'
+  teh-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/xx_29a70c201ef6 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  yrrex5fcam:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Once the crafting recipes are done bail out
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; compgen -A builtin | head -n5; true ; } > /tmp/shaft/TRADE
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/TRADE) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'TRADE'
+  produce-production-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/TRADE 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  ITEM_202606:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Raw footage watermarked early
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; echo -n 'saved' | sha224sum; true ; } > /tmp/shaft/6953.XML
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/6953.XML) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '6953.XML'
+  DATA-470:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  UXCW-2832-warning:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Unload the rollback script from staging to west
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; if test -u /usr/bin/passwd; then echo yes; else echo 'no'; fi; true ; } > /tmp/shaft/meadow-FTP_3022_6994
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/meadow-FTP_3022_6994) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'meadow-FTP_3022_6994'
+  v5-edge:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  mirror-encode-pipe-digest:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: This is where we receive the inbound truck
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; function calc { echo "$#"; }; calc wendy raj dave; true ; } > /tmp/shaft/FILTER_BUFFER_PROTON
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/FILTER_BUFFER_PROTON) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'FILTER_BUFFER_PROTON'
+  q4-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/FILTER_BUFFER_PROTON 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  klushsisttaimd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Overnight announcement
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; cut -d: -f6 /etc/passwd | sed 's|.*/||' | sort; true ; } > /tmp/shaft/debug-f72170.log
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/debug-f72170.log) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'debug-f72170.log'
+  q2-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/debug-f72170.log 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  lbl_decorator:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Via webhook enforce the threat feed
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf %s "thank you"|sha384sum|awk '{print $1}'; true ; } > /tmp/shaft/iV
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/iV) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'iV'
+  min-run:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/iV 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  ITM-SECTION-MAX:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Tune the sidebar
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; ls -nrg|head -n 10; true ; } > /tmp/shaft/ledger_West_CSV_MD5
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/ledger_West_CSV_MD5) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'ledger_West_CSV_MD5'
+  dotnet8-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/ledger_West_CSV_MD5 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  okStr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: RISKY diff
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; cat /etc/profile | tr -s ' ' | head -5; true ; } > /tmp/shaft/StackCanvasRidge
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/StackCanvasRidge) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'StackCanvasRidge'
+  chen-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/6953.XML 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+  setup_param_test:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Project Marble
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; ps -ef | awk 'NR>1 {print $2, $8}' | head -n3; true ; } > /tmp/shaft/grove.quark.client.socket
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/grove.quark.client.socket) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'grove.quark.client.socket'
+  full-send:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Fetch yellow
+          command: |
+            b=$(wc -c < /tmp/shaft/grove.quark.client.socket 2>/dev/null); echo $((b**2 / 1000)) || true
+      - run:
+          name: Fetch and expand
+          command: git clone --depth 5 -q --filter=tree:0 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Fetch sources
+          command: tar --extract --xz --file=dev-sources-stage.tar.xz
+      - run:
+          name: Smoke check
+          command: mkdir -p artifacts
+      - run:
+          name: Store metadata
+          command: sleep 45
+      - run:
+          command: $PWD/kick-mapper
+
+  CNT_29:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Toronto first then region two
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; if test -w /tmp ; then echo 'present'; elif test -e /tmp ; then echo maybe; else echo 'absent'; fi; true ; } > /tmp/shaft/xx_29a70c201ef6
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/xx_29a70c201ef6) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'xx_29a70c201ef6'
+  numzz659:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Import the nav mesh zone 7
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; find /var/log -maxdepth 2 -name '*.gz' -exec ls -1d {} + 2>/dev/null | sort | head -n 20; true ; } > /tmp/shaft/debug-f72170.log
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/debug-f72170.log) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'debug-f72170.log'
+  bIsSchemaHotPoint:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: PASS gc
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; for c in oslo dublin tokyo vienna; do printf '%s\n' "$c"; done | sort -r; true ; } > /tmp/shaft/FILTER_BUFFER_PROTON
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/FILTER_BUFFER_PROTON) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'FILTER_BUFFER_PROTON'
+  sortlazy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: The read replica locked nightly
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; find /sys/class/net -maxdepth 1 -type f -user $(whoami) -print | sort | head -n 5; true ; } > /tmp/shaft/iV
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/iV) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'iV'
+  KSB-94135:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Deploy the GPU pool fp16
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; [[ 44 -lt 18 ]] && echo less || echo "not less"; true ; } > /tmp/shaft/4ebc594c-a4a4
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/4ebc594c-a4a4) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '4ebc594c-a4a4'
+  ID-PCT-TRL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: done garbage collecting watchdog
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; ls -l /dev | grep "^c" | head -4; true ; } > /tmp/shaft/Shimmer
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/Shimmer) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'Shimmer'
+  FastFinalDynamic:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Imaging Weight 4
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\njudy,paris,48\ngrace,manila,43\nchen,boston,88\nheidi,athens,93\n' > "/tmp/model_20210119.csv" && awk -F, 'NR==1 {print NF " columns"}' "/tmp/model_20210119.csv"; true ; } > /tmp/shaft/ledger_West_CSV_MD5
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/ledger_West_CSV_MD5) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'ledger_West_CSV_MD5'
+  LG42502:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Tune up returns bin
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/bundle.dat &&cmp /etc/hosts /tmp/bundle.dat &&echo same; true ; } > /tmp/shaft/7acd06c912
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/7acd06c912) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '7acd06c912'
+  chenchen:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: runLanguageSwitcherExpand
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/tools_seal_sandbox_0921" && touch "/tmp/tools_seal_sandbox_0921"/{green,yellow,pink}.json && ls -l "/tmp/tools_seal_sandbox_0921" | tail -n +2; true ; } > /tmp/shaft/4rch1ve.b1ue
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/4rch1ve.b1ue) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '4rch1ve.b1ue'
+  carol89:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Seed Collision Meshes For The Demo Build
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; command ls -XS /etc/skel | sed -n '1~2p'; true ; } > /tmp/shaft/f5fcdf8
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/f5fcdf8) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'f5fcdf8'
+  add_edit_host:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: SNAPSHOT BACKUP SET COMPLETE
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; for c in {1..8..2}; do echo "${c}"; done|paste -sd ' '; true ; } > /tmp/shaft/CEDAR
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/CEDAR) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'CEDAR'
+  HTTPS_TTL_FINAL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Patch the leaderboard chapter 8
+          command: |
+            mkdir -p /tmp/shaft
+            set +o pipefail 2>/dev/null; declare -a arr; for i in $(seq 1 5000); do arr[${i}]="val-${i}"; done; printf '%s\n' "${arr[@]}" > /tmp/shaft/CSVGPU; true
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/CSVGPU) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'CSVGPU'
+  abortSeedID:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Reboot Fan Curve On Canary
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; cat /etc/hosts|awk '{print $2}'|sort; true ; } > /tmp/shaft/DSC_00048858
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/DSC_00048858) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'DSC_00048858'
+  CUSTOM_CONST:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: serving mixed precision
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; ps -p $$ -o comm= | wc -l; true ; } > /tmp/shaft/meadow.photon.sweep
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/meadow.photon.sweep) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'meadow.photon.sweep'
+  F2-5A-7D-C2-3F-76:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Notification risk low
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; : >'/tmp/desk-dolphin-1106.log' && ls -l '/tmp/desk-dolphin-1106.log'; true ; } > /tmp/shaft/env.dev
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/env.dev) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'env.dev'
+  assert_segment_inner:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Focus the login button then screenshot
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; grep -hcHr alias /usr/share/doc/bash | nl | head -8; true ; } > /tmp/shaft/PNG-Dream-SDK
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/PNG-Dream-SDK) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'PNG-Dream-SDK'
+  wanWANTax:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: anonymize invoice rows last
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf '%-6s%-6s%s\n' zebra cat shark; true ; } > /tmp/shaft/grove.quark.client.socket
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/grove.quark.client.socket) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'grove.quark.client.socket'
+  RATE_SECRET:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: ul keys to dev
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; printf 'name,city,score\neva,bogota,66\njuan,oslo,61\numa,toronto,54\nliam,nairobi,51\n' >"/var/tmp/sr3.conf" &&head -n 1 "/var/tmp/sr3.conf" | tr , "\n"; true ; } > /tmp/shaft/2027-07-13T16-16
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/2027-07-13T16-16) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '2027-07-13T16-16'
+  ZGP24774:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Crescendo thanks
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; for n in lisbon quito perth boston manila;do echo "<$n>"; done | tac; true ; } > /tmp/shaft/33775c02ef
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/33775c02ef) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - '33775c02ef'
+  u8mnx:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: sort by frontend team
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; df -h --total | head -4; true ; } > /tmp/shaft/TRADE
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/TRADE) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'TRADE'
+  aa-37-b8:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: If the shipping labels fail do nothing
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; expand -t 8 /etc/login.defs | head -n6; true ; } > /tmp/shaft/ENGINE_SOCKET
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/ENGINE_SOCKET) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'ENGINE_SOCKET'
+  diff_split_wrench_gadget:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/shaft
+      - run:
+          name: Offboard the ID badges
+          command: |
+            mkdir -p /tmp/shaft
+            { set +o pipefail 2>/dev/null; for x in $(seq 1 5); do printf '%d %d\n' $x $((x * 3)); done | head -n 3; true ; } > /tmp/shaft/noise.reef.token.east.kappa
+            # report
+            echo "stage done: $(wc -c </tmp/shaft/noise.reef.token.east.kappa) B"
+      - persist_to_workspace:
+          root: /tmp/shaft
+          paths:
+            - 'noise.reef.token.east.kappa'
+workflows:
+  matrix:
+    jobs:
+      - DEV
+      - CNT_29:
+          requires:
+            - DEV
+      - teh-ci:
+          requires:
+            - CNT_29
+      - klushsisttaimd:
+          requires:
+            - CNT_29
+      - numzz659:
+          requires:
+            - klushsisttaimd
+      - q2-ship:
+          requires:
+            - numzz659
+      - mirror-encode-pipe-digest:
+          requires:
+            - numzz659
+      - bIsSchemaHotPoint:
+          requires:
+            - mirror-encode-pipe-digest
+      - q4-canary:
+          requires:
+            - bIsSchemaHotPoint
+      - lbl_decorator:
+          requires:
+            - bIsSchemaHotPoint
+      - sortlazy:
+          requires:
+            - lbl_decorator
+      - min-run:
+          requires:
+            - sortlazy
+      - AllTheStates:
+          requires:
+            - sortlazy
+      - KSB-94135:
+          requires:
+            - AllTheStates
+      - greg-ship:
+          requires:
+            - KSB-94135
+      - gf:
+          requires:
+            - KSB-94135
+      - ID-PCT-TRL:
+          requires:
+            - gf
+      - go1-21-lint:
+          requires:
+            - ID-PCT-TRL
+      - ITM-SECTION-MAX:
+          requires:
+            - ID-PCT-TRL
+      - FastFinalDynamic:
+          requires:
+            - ITM-SECTION-MAX
+      - dotnet8-release:
+          requires:
+            - FastFinalDynamic
+      - BB75:
+          requires:
+            - FastFinalDynamic
+      - LG42502:
+          requires:
+            - BB75
+      - rust-fmt:
+          requires:
+            - LG42502
+      - TOTAL_SHIPMENT:
+          requires:
+            - LG42502
+      - chenchen:
+          requires:
+            - TOTAL_SHIPMENT
+      - blast-off:
+          requires:
+            - chenchen
+      - summer_074354:
+          requires:
+            - chenchen
+      - carol89:
+          requires:
+            - summer_074354
+      - ci-3:
+          requires:
+            - carol89
+      - prop_prev_sz:
+          requires:
+            - carol89
+      - add_edit_host:
+          requires:
+            - prop_prev_sz
+      - PackageService:
+          requires:
+            - add_edit_host
+      - ITEM_202606
+      - AES_Scene
+      - okStr
+      - DATA-470:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - rl-v2:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - chen-smoke:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - q4-cleanup:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - v5-edge:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - PackagePipeline:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - assemble-partial-artifact-bundle:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - titan-ng:
+          requires:
+            - ITEM_202606
+            - AES_Scene
+            - okStr
+      - chip__desc--italic
+      - HTTPS_TTL_FINAL:
+          requires:
+            - chip__desc--italic
+      - v1-alpha2:
+          requires:
+            - HTTPS_TTL_FINAL
+      - ukbeacmhnapic:
+          requires:
+            - HTTPS_TTL_FINAL
+      - abortSeedID:
+          requires:
+            - ukbeacmhnapic
+      - preview:
+          requires:
+            - abortSeedID
+      - work-stub:
+          requires:
+            - abortSeedID
+      - CUSTOM_CONST:
+          requires:
+            - work-stub
+      - hyperion-rc:
+          requires:
+            - CUSTOM_CONST
+      - Myc0F9Q0:
+          requires:
+            - CUSTOM_CONST
+      - F2-5A-7D-C2-3F-76:
+          requires:
+            - Myc0F9Q0
+      - rm-cache:
+          requires:
+            - F2-5A-7D-C2-3F-76
+      - IN-OUT-2:
+          requires:
+            - F2-5A-7D-C2-3F-76
+      - assert_segment_inner:
+          requires:
+            - IN-OUT-2
+      - cd:
+          requires:
+            - assert_segment_inner
+      - setup_param_test:
+          requires:
+            - assert_segment_inner
+      - wanWANTax:
+          requires:
+            - setup_param_test
+      - full-send:
+          requires:
+            - wanWANTax
+      - Papa:
+          requires:
+            - wanWANTax
+      - RATE_SECRET:
+          requires:
+            - Papa
+      - oscar:
+          requires:
+            - RATE_SECRET
+      - article_spawn_next:
+          requires:
+            - RATE_SECRET
+      - ZGP24774:
+          requires:
+            - article_spawn_next
+      - preview-build:
+          requires:
+            - ZGP24774
+      - yrrex5fcam:
+          requires:
+            - ZGP24774
+      - u8mnx:
+          requires:
+            - yrrex5fcam
+      - produce-production-artifact-bundle:
+          requires:
+            - u8mnx
+      - sess__option__:
+          requires:
+            - u8mnx
+      - aa-37-b8:
+          requires:
+            - sess__option__
+      - ShipService:
+          requires:
+            - aa-37-b8
+      - dlgscene:
+          requires:
+            - aa-37-b8
+      - diff_split_wrench_gadget:
+          requires:
+            - dlgscene
+      - apr13-canary:
+          requires:
+            - diff_split_wrench_gadget
